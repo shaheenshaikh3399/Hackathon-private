@@ -1,0 +1,39 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: POLICY-SERVICE
+          uri: lb://POLICY-SERVICE
+          predicates:
+            - Path=/policies/**
+
+        - id: POLICY-SELECTION-SERVICE
+          uri: lb://POLICY-SELECTION-SERVICE
+          predicates:
+            - Path=/policies/select/**
+
+        - id: POLICY-GENERATION-SERVICE
+          uri: lb://POLICY-GENERATION-SERVICE
+          predicates:
+            - Path=/policies/generate/**
+
+        - id: POLICY-TRANSACTION-SERVICE
+          uri: lb://POLICY-TRANSACTION-SERVICE
+          predicates:
+            - Path=/payments/**
+
+        - id: POLICY-EMAIL-SERVICE
+          uri: lb://POLICY-EMAIL-SERVICE
+          predicates:
+            - Path=/notifications/email/**
+
+
